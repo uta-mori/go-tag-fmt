@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"flag"
 	"go/ast"
 	"go/format"
 	"go/parser"
@@ -14,10 +15,15 @@ import (
 	"strings"
 )
 
+var (
+	filename = flag.String("f","./testdata/target.go","no filename")
+)
+
 func main(){
+	flag.Parse()
+
 	fset := token.NewFileSet()
-	filename := "./testdata/a.go"
-	file, err := parser.ParseFile(fset, filename, nil, parser.ParseComments)
+	file, err := parser.ParseFile(fset, *filename, nil, parser.ParseComments)
 	if err != nil {
 		log.Fatal("Error:", err)
 	}
