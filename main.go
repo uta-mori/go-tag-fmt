@@ -3,9 +3,11 @@ package main
 import (
 	"fmt"
 	"go/ast"
+	"go/format"
 	"go/parser"
 	"go/token"
 	"log"
+	"os"
 )
 
 func main(){
@@ -29,5 +31,7 @@ func main(){
 		}
 		return true
 	})
+
+	format.Node(os.Stdout,fset,file)
 
 }
