@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"
@@ -14,6 +15,19 @@ func main(){
 	if err != nil {
 		log.Fatal("Error:", err)
 	}
-	ast.Print(fset, file)
+	ast.Inspect(file, func(node ast.Node) bool {
+		s, ok := node.(*ast.StructType)
+		if !ok {
+			return true
+		}
+
+		for _, f := range s.Fields.List {
+			if f.Tag == nil {
+				continue
+			}
+			fmt.Println(f.Tag.Value)
+		}
+		return true
+	})
 
 }
